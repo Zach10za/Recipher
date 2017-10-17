@@ -28,7 +28,9 @@ export default class GUIEditor extends Component {
             id: (last_element.id + 1),
             qtype: 'radio',
             qlabel: qlabel,
+            qcond: "",
             qtitle: 'Question Title',
+            qinstructions: "",
             shuffle: {
               rows: false,
               cols: false

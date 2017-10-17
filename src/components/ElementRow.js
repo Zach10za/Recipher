@@ -21,6 +21,7 @@ export default class ElementRow extends Component {
       return (
         <div className="gui-element-row">
             <input type="text" name="label" value={this.props.row.label} onChange={this.handleChange.bind(this)} />
+            <input type="text" name="value" value={this.props.row.value} onChange={this.handleChange.bind(this)} />
             <input type="text" name="text" value={this.props.row.text} onChange={this.handleChange.bind(this)} />
         </div>
       );

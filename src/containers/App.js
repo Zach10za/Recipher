@@ -20,36 +20,25 @@ class App extends Component {
         id: 0,
         qtype: 'radio',
         qlabel: 'Q1',
+        qcond: "",
         qtitle: 'Test Question',
+        qinstructions: "",
         shuffle: {
           rows: true,
           cols: false
         },
         rows: [{
           label: "r1",
+          value: "1",
           text: "test row 1"
         },{
           label: "r2",
+          value: "2",
           text: "test row 2"
         },{
           label: "r3",
+          value: "3",
           text: "test row 3"
-        }]
-      },{
-        id: 1,
-        qtype: 'checkbox',
-        qlabel: 'Q2',
-        qtitle: 'Another Question',
-        shuffle: {
-          rows: false,
-          cols: false
-        },
-        rows: [{
-          label: "A",
-          text: "test row A"
-        },{
-          label: "B",
-          text: "test row B"
         }]
       }]
     };
@@ -69,7 +58,9 @@ class App extends Component {
     let elem = elements[element.id];
     elem.qtype = element.qtype;
     elem.qlabel = element.qlabel;
+    elem.qcond = element.qcond;
     elem.qtitle = element.qtitle;
+    elem.qinstructions = element.qinstructions;
     elem.shuffle = element.shuffle;
     elem.rows = element.rows;
     elements[element.id] = elem;

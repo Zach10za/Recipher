@@ -11,7 +11,9 @@ export default class ElementForm extends Component {
             id: this.props.id,
             qtype: this.props.element.qtype,
             qlabel: this.props.element.qlabel,
+            qcond: this.props.element.qcond,
             qtitle: this.props.element.qtitle,
+            qinstructions: this.props.element.qinstructions,
             shuffle: this.props.element.shuffle,
             rows: this.props.element.rows
         };
@@ -39,7 +41,9 @@ export default class ElementForm extends Component {
         <form className="gui-element">
             <input type="text" name="qtype" value={this.props.element.qtype} onChange={this.handleChange.bind(this)} />
             <input type="text" name="qlabel" value={this.props.element.qlabel} onChange={this.handleChange.bind(this)} />
+            <input type="text" name="qcond" value={this.props.element.qcond} onChange={this.handleChange.bind(this)} />
             <input type="text" name="qtitle" value={this.props.element.qtitle} onChange={this.handleChange.bind(this)} />
+            <input type="text" name="qinstructions" value={this.props.element.qinstructions} onChange={this.handleChange.bind(this)} />
 
             <ElementRows rows={this.props.element.rows} updateRows={this.updateRows.bind(this)}/>
 
