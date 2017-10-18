@@ -46,7 +46,6 @@ class App extends Component {
 
   updateElements(elements) {
     this.setState({ elements });
-    console.log(this.state);
   }
 
   updateXML(xml) {

@@ -22,7 +22,7 @@
 
 .gui-editor {
   grid-column: 2 / 3;
-  background: rgb(131, 150, 167);
+  background: #F9F9F9;
   overflow-y: scroll;
   padding: 40px 10px;
 }
@@ -44,42 +44,52 @@
 }
 
 .gui-element {
-  background: rgb(187, 195, 206);
+  background: #FFFFFF;
+  border: 1px solid #BCBCBC;
   margin: 20px 10px;
   padding: 20px;
   display: grid;
-  grid-template-columns: 40px 40px 40px auto 40px 40px;
-  grid-template-rows: 40px 40px 40px auto;
+  grid-template-columns: repeat(2,minmax(40px, 80px)) 40px auto 40px 40px;
+  grid-template-rows: 50px 50px 50px auto;
   align-items: center;
 }
 .gui-element input {
   border: none;
-  padding: 5px;
-  line-height: 20px;
+  border: 1px solid #DDDDDD;
+  border-radius: 3px;
+  padding: 3px 10px;
+  line-height: 18px;
   width: calc(100% - 10px);
-  background: rgba(255,255,255,0.8);
   color: rgba(0,0,0,0.9);
 }
-.gui-element input[name="qtype"] {
+.gui-element .qtype {
   grid-row: 1 / 2;
   grid-column: 2 / 4;
 }
-.gui-element input[name="qlabel"] {
+.gui-element .qlabel {
   grid-row: 1 / 2;
   grid-column: 1 / 2;
 }
-.gui-element input[name="qcond"] {
+.gui-element .qcond {
   grid-row: 1 / 2;
   grid-column: 4 / 5;
 }
-.gui-element input[name="qtitle"] {
+.gui-element .qtitle {
   grid-row: 2 / 3;
   grid-column: 1 / 5;
 }
-.gui-element input[name="qinstructions"] {
+.gui-element .qinstructions {
   grid-row: 3 / 4;
   grid-column: 1 / 5;
+}
+.gui-element .qinstructions input {
   font-style: italic;
+}
+.gui-element label {
+  font-size: 11px;
+  font-weight: bold;
+  text-align: left;
+  line-height: 16px;
 }
 .gui-element-rows {
   grid-row: 4 / 5;
@@ -89,20 +99,33 @@
 }
 .gui-element-row {
   display: grid;
-  grid-template-columns: 40px 40px 40px auto 40px 40px;
+  grid-template-columns: repeat(2,minmax(40px, 50px)) 40px auto 40px 40px;
   align-items: center;
   margin: 10px 0;
 }
 .gui-element-row input {
-  padding: 5px;
+  padding: 3px 10px;
   width: calc(100% - 10px);
-  line-height: 20px;
+  line-height: 18px;
 }
-.gui-element-row input[name='label'] {
+.gui-element-row .label {
   grid-column: 1 / 2;
 }
-.gui-element-row input[name='text'] {
+.gui-element-row .value {
+  grid-column: 2 / 3;
+}
+.gui-element-row .text {
   grid-column: 3 / 5;
+}
+
+.gui-element-row:nth-of-type(1) label.label::before {
+  content: "Label:";
+}
+.gui-element-row:nth-of-type(1) label.value::before {
+  content: "Value:";
+}
+.gui-element-row:nth-of-type(1) label.text::before {
+  content: "Text:";
 }
 
 .gui-element-options {
@@ -126,8 +149,7 @@
   text-align: center;
 }
 .gui-element-options input:checked {
-  background: rgb(31, 113, 190);
-  color: #FFF;
+  background: #BEEBFF;
 }
 .gui-element-options input[name="rows"] {
   grid-column: 1 / 2;

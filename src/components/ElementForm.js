@@ -31,6 +31,10 @@ export default class ElementForm extends Component {
         this.props.updateForm(this.element);
     }
 
+    addRow(row) {
+        
+    }
+
     updateOptions(options) {
         this.element.shuffle = options;
         this.props.updateForm(this.element);
@@ -39,11 +43,26 @@ export default class ElementForm extends Component {
     render() {
       return (
         <form className="gui-element">
-            <input type="text" name="qtype" value={this.props.element.qtype} onChange={this.handleChange.bind(this)} />
-            <input type="text" name="qlabel" value={this.props.element.qlabel} onChange={this.handleChange.bind(this)} />
-            <input type="text" name="qcond" value={this.props.element.qcond} onChange={this.handleChange.bind(this)} />
-            <input type="text" name="qtitle" value={this.props.element.qtitle} onChange={this.handleChange.bind(this)} />
-            <input type="text" name="qinstructions" value={this.props.element.qinstructions} onChange={this.handleChange.bind(this)} />
+            <label className="qtype">
+                Type:
+                <input type="text" name="qtype" value={this.props.element.qtype} onChange={this.handleChange.bind(this)} />
+            </label>
+            <label className="qlabel">
+                Label:
+                <input type="text" name="qlabel" value={this.props.element.qlabel} onChange={this.handleChange.bind(this)} />
+            </label>
+            <label className="qcond">
+                Cond:
+                <input type="text" name="qcond" value={this.props.element.qcond} onChange={this.handleChange.bind(this)} />
+            </label>
+            <label className="qtitle">
+                Question:
+                <input type="text" name="qtitle" value={this.props.element.qtitle} onChange={this.handleChange.bind(this)} />
+            </label>
+            <label className="qinstructions">
+                Instructions:
+                <input type="text" name="qinstructions" value={this.props.element.qinstructions} onChange={this.handleChange.bind(this)} />
+            </label>
 
             <ElementRows rows={this.props.element.rows} updateRows={this.updateRows.bind(this)}/>
 
