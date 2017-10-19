@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import XMLEditor from './XMLEditor.js';
 import GUIEditor from './GUIEditor.js';
+import Store from '../utils/Store.js';
 
 //import logo from '../images/logo.svg';
 import '../containers/App.css';
@@ -12,44 +13,36 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      xml: "",
+      project: {
+        name: ""
+      },
       GUIEditor: {
         status: "enabled"
       },
       elements: [{
         id: 0,
-        qtype: 'radio',
-        qlabel: 'Q1',
+        qtype: "",
+        qlabel: "",
         qcond: "",
-        qtitle: 'Test Question',
-        qinstructions: "",
+        qtitle: "",
+        qinstruction: "",
         shuffle: {
-          rows: true,
+          rows: false,
           cols: false
         },
-        rows: [{
-          label: "r1",
-          value: "1",
-          text: "test row 1"
-        },{
-          label: "r2",
-          value: "2",
-          text: "test row 2"
-        },{
-          label: "r3",
-          value: "3",
-          text: "test row 3"
-        }]
+        rows: [],
+        cols: []
       }]
     };
+    this.store = new Store();
+    this.list = this.store.list();
+    console.log(this.list);
   }
 
   updateElements(elements) {
-    this.setState({ elements });
-  }
-
-  updateXML(xml) {
-    this.setState({ xml })
+    this.setState({ elements }, () => {
+      this.refs.XML.compileXML();
+    }, this);
   }
 
   updateElement(element) {
@@ -59,19 +52,12 @@ class App extends Component {
     elem.qlabel = element.qlabel;
     elem.qcond = element.qcond;
     elem.qtitle = element.qtitle;
-    elem.qinstructions = element.qinstructions;
+    elem.qinstruction = element.qinstruction;
     elem.shuffle = element.shuffle;
     elem.rows = element.rows;
+    elem.cols = element.cols;
     elements[element.id] = elem;
     this.updateElements(elements);
-    this.refs.XML.compileXML();
-  }
-  
-  addElement(element) {
-    let elements = this.state.elements;
-    elements.push(element);
-    this.updateElements(elements);
-    this.refs.XML.compileXML();
   }
 
   handleXMLFocus(focus) {
@@ -84,22 +70,35 @@ class App extends Component {
     this.setState({ GUIEditor });
   }
 
+  saveStateToFile() {
+    this.store.set(this.state.project.name, this.state);
+  }
+
+  loadStateFromFile(project_name) {
+    let state = this.store.get(project_name);
+    this.setState(state, () => {
+      this.updateElements(this.state.elements);
+    }, this);
+    console.log('Loaded '+ project_name, this.state);
+  }
+
   render() {
     return (
       <div className="App">
         <XMLEditor 
           ref='XML' 
           elements={this.state.elements}
-          xml={this.state.xml}
           updateElements={this.updateElements.bind(this)}
-          updateXML={this.updateXML.bind(this)}
           handleFocus={this.handleXMLFocus.bind(this)} />
         <GUIEditor 
           ref='GUI'
           elements={this.state.elements} 
+          projects={this.list}
           updateElement={this.updateElement.bind(this)}
-          addElement={this.addElement.bind(this)}
-          status={this.state.GUIEditor.status} />
+          updateElements={this.updateElements.bind(this)}
+          status={this.state.GUIEditor.status}
+          saveProject={this.saveStateToFile.bind(this)}
+          loadProject={this.loadStateFromFile.bind(this)} />
       </div>
     );
   }

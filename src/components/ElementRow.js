@@ -17,6 +17,17 @@ export default class ElementRow extends Component {
         this.props.updateRow(this.index, this.row);
     }
 
+    changeOption(event) {
+        const name = event.target.name;
+        const checked = event.target.checked;
+        this.row[name] = checked;
+        this.props.updateRow(this.index, this.row);
+    }
+
+    delete(event) {
+        this.props.deleteRow(this.index);
+    }
+
     render() {
       return (
         <div className="gui-element-row">
@@ -29,6 +40,9 @@ export default class ElementRow extends Component {
             <label className="text">
                 <input type="text" name="text" value={this.props.row.text} onChange={this.handleChange.bind(this)} />
             </label>
+            <input type="checkbox" name="anchor" className="row-option" checked={this.props.row.anchor} onChange={this.changeOption.bind(this)} />
+            <input type="checkbox" name="exclusive" className="row-option" checked={this.props.row.exclusive} onChange={this.changeOption.bind(this)} />
+            <a className="row-option delete-row" onClick={this.delete.bind(this)}>X</a>
         </div>
       );
     }

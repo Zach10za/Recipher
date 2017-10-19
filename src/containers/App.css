@@ -9,7 +9,7 @@
   height: 100vh;
   width: 100%;
   display: grid;
-  grid-template-columns: 50vw 50vw;
+  grid-template-columns: 40% 60%;
 }
 
 .xml-editor {
@@ -24,14 +24,14 @@
   grid-column: 2 / 3;
   background: #F9F9F9;
   overflow-y: scroll;
-  padding: 40px 10px;
+  padding: 10px;
 }
 
 .gui-editor .disabled-overlay {
   position: absolute;
   top: 0;
   right: 0;
-  width: 50%;
+  width: 60%;
   height: 100%;
   z-index: 10;
   background: rgba(170, 207, 231, 0.4);
@@ -46,12 +46,7 @@
 .gui-element {
   background: #FFFFFF;
   border: 1px solid #BCBCBC;
-  margin: 20px 10px;
-  padding: 20px;
-  display: grid;
-  grid-template-columns: repeat(2,minmax(40px, 80px)) 40px auto 40px 40px;
-  grid-template-rows: 50px 50px 50px auto;
-  align-items: center;
+  margin: 30px 0;
 }
 .gui-element input {
   border: none;
@@ -60,29 +55,88 @@
   padding: 3px 10px;
   line-height: 18px;
   width: calc(100% - 10px);
-  color: rgba(0,0,0,0.9);
+  color: #333333;
+  box-shadow: rgba(0, 0, 0, 0.075) 0px 1px 1px 0px inset;
 }
-.gui-element .qtype {
+.gui-element-header {
+  background: #BEEBFF;
+  height: 40px;
+  padding: 8px 20px;
+  text-align: left;
+  width: 100%;
   grid-row: 1 / 2;
-  grid-column: 2 / 4;
+  grid-column: 1 / 7;
+  border-bottom: 1px solid #8AC1D9;
 }
-.gui-element .qlabel {
-  grid-row: 1 / 2;
-  grid-column: 1 / 2;
+
+.gui-element-header input, .gui-element-header select {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  border-bottom: 2px solid #333333;
+  padding: 0 4px;
+  line-height: 24px;
+  font-size: 16px;
+  font-weight: bold;
+}
+.gui-element-header select {
+  padding: 2px 0 3px;
+  width: auto;
+}
+
+.gui-element-header .delete-element {
+  display: inline-block;
+  background: #9E0B0F;
+  line-height: 24px;
+  padding: 0 10px;
+  border: none;
+  border-radius: 3px;
+  color: #ffffff;
+  float: right;
+  cursor: pointer;
+}
+.gui-element-body {
+  padding: 0 20px 20px;
+  display: grid;
+  grid-template-columns: repeat(2,minmax(40px, 80px)) 40px auto 40px 40px;
+  grid-template-rows: 40px 50px 50px auto;
+  align-items: center;
+}
+.gui-element-header .qtype {
+  display: inline-block;
+  width: auto;
+}
+.gui-element-header .qlabel {
+  display: inline-block;
+  width: 80px;
 }
 .gui-element .qcond {
   grid-row: 1 / 2;
-  grid-column: 4 / 5;
+  grid-column: 1 / 5;
+  padding: 4px 10px 0;
+  align-self: start;
+  background: #FFBD59;
+  border: 1px solid #DDDDDD;
+  border-top: none;
+  border-radius: 0 0 3px 3px;
+  color: #333333;
+  font-weight: 600;
+}
+.gui-element .qcond input {
+  background: #FFBD59;
+  border: none;
+  padding-left: 0;
+  font-weight: 600;
 }
 .gui-element .qtitle {
   grid-row: 2 / 3;
   grid-column: 1 / 5;
 }
-.gui-element .qinstructions {
+.gui-element .qinstruction {
   grid-row: 3 / 4;
   grid-column: 1 / 5;
 }
-.gui-element .qinstructions input {
+.gui-element .qinstruction input {
   font-style: italic;
 }
 .gui-element label {
@@ -91,7 +145,16 @@
   text-align: left;
   line-height: 16px;
 }
-.gui-element-rows {
+.gui-element label.inline span {
+  display: inline-block;
+  padding-right: 3px;
+}
+
+.gui-element label.inline input {
+  display: inline-block;
+  width: 90%;
+}
+.gui-element .qrows {
   grid-row: 4 / 5;
   grid-column: 1 / 7;
   margin: 0;
@@ -99,33 +162,97 @@
 }
 .gui-element-row {
   display: grid;
-  grid-template-columns: repeat(2,minmax(40px, 50px)) 40px auto 40px 40px;
+  grid-template-columns: 30px 35px auto 30px 30px 30px;
   align-items: center;
-  margin: 10px 0;
+  margin: 0;
+  background: #F5F5F5;
+  border: 1px solid #DDDDDD;
+  border-bottom: none;
+  padding: 3px 5px;
+}
+.gui-element-row:last-of-type {
+  border-bottom: 1px solid #DDDDDD;
 }
 .gui-element-row input {
   padding: 3px 10px;
   width: calc(100% - 10px);
   line-height: 18px;
+  background: #FFFFFF;
 }
 .gui-element-row .label {
   grid-column: 1 / 2;
+  text-align: right;
+}
+.gui-element-row .label input {
+  background: #FFBD59;
+  border-radius: 3px 0 0 3px;
+  border-color: #FFBD59;
+  text-align: right;
+  width: 100%;
+  padding: 3px 5px;
 }
 .gui-element-row .value {
   grid-column: 2 / 3;
 }
+.gui-element-row .value input {
+  border-radius: 0 3px 3px 0;
+  border-color: #FFBD59;
+  font-style: italic;
+  width: 80%;
+  padding: 3px 5px;
+}
 .gui-element-row .text {
-  grid-column: 3 / 5;
+  grid-column: 3 / 4;
 }
 
-.gui-element-row:nth-of-type(1) label.label::before {
-  content: "Label:";
+.gui-element-row .row-option {
+  appearance: none;
+  display: block;
+  background: transparent;
+  border: 1px solid #FFBD59;
+  border-radius: 3px;
+  padding: 1px 2px;
+  margin: 0;
+  width: 90%;
+  text-align: center;
+  font-size: 9px;
+  text-transform: uppercase;
 }
-.gui-element-row:nth-of-type(1) label.value::before {
-  content: "Value:";
+.gui-element-row input[name="anchor"]::after {
+  content: "shf";
+  text-decoration: line-through;
 }
-.gui-element-row:nth-of-type(1) label.text::before {
-  content: "Text:";
+.gui-element-row input[name="exclusive"]::after {
+  content: "exc";
+}
+.gui-element-row .row-option:checked {
+  background: #FFBD59;
+}
+.gui-element-row .delete-row {
+  grid-column: 6 / 7;
+  display: block;
+  background: #9E0B0F;
+  border-radius: 3px;
+  color: #FFF;
+  text-align: center;
+  padding: 2px 0;
+  cursor: pointer;
+}
+
+.gui-element-rows .add-row {
+  display: block;
+  font-size: 13px;
+  color: #0086AB;
+  text-decoration: none;
+  font-weight: 400;
+  padding: 10px;
+}
+
+.gui-element .qcols {
+  grid-row: 5 / 6;
+  grid-column: 1 / 7;
+  margin: 0;
+  margin-top: 20px;
 }
 
 .gui-element-options {
@@ -166,8 +293,12 @@
   content: "cols";
 }
 .add-element {
-  width: 50%;
-  background: lightgreen;
-  border:none;
-  padding: 20px;
+  padding: 10px;
+  float: left;
+  cursor: pointer;
+  display: block;
+  font-size: 15px;
+  color: #0086AB;
+  text-decoration: none;
+  font-weight: 400;
 }

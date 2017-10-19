@@ -3,6 +3,8 @@ const electron = require('electron')
 const app = electron.app
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
+// Module to create native menu.
+const Menu = electron.Menu
 
 const path = require('path')
 const url = require('url')
@@ -34,6 +36,8 @@ function createWindow () {
     // when you should delete the corresponding element.
     mainWindow = null
   })
+
+  setMainMenu()
 }
 
 // This method will be called when Electron has finished
@@ -57,3 +61,36 @@ app.on('activate', function () {
     createWindow()
   }
 })
+
+function setMainMenu() {
+  const template = [
+    {
+    label: 'File',
+    submenu: [{
+        label: 'New Project',
+        click() {
+          console.log('new project')
+        }
+      },{
+        label: 'Recent',
+        submenu: [{
+            label: 'project_1',
+            click() {
+              console.log('load project_!')
+            }
+          }]
+      },{
+        label: 'Open',
+        click() {
+          console.log('open')
+        }
+      },{
+        label: 'Save',
+        accelerator: 'Ctrl+S',
+        click() {
+          console.log('Saved!')
+        }
+      }]
+    }]
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+}

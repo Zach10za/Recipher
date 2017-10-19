@@ -10,22 +10,27 @@ export default class XMLEditor extends Component {
 
     constructor(props) {
         super(props);
-        this.elements = this.props.elements;
         this.handleChange = this.handleChange.bind(this);
         this.handleSelection = this.handleSelection.bind(this);
         this.handleFocus = this.handleFocus.bind(this);
-
-        this.compileXML(this.xml);
+        this.state = ({
+            xml: XMLHelper.compileXML(this.props.elements)
+        })
     }
 
-
     handleChange(value, event) {
-        this.xml = value;
+        const xml = value;
+        this.setState({xml});
     }
 
     compileXML() {
-        this.xml = XMLHelper.compileXML(this.elements);
-        this.props.updateXML(this.xml);
+        const xml = XMLHelper.compileXML(this.props.elements);
+        this.setState({xml});
+    }
+    
+    parseXML() {
+        const elements = XMLHelper.parseXML(this.state.xml);
+        this.props.updateElements(elements);
     }
 
     handleSelection(selection, event) {
@@ -42,12 +47,6 @@ export default class XMLEditor extends Component {
         }
     }
 
-    parseXML() {
-        this.props.updateXML(this.xml);
-        this.elements = XMLHelper.parseXML(this.xml);
-        this.props.updateElements(this.elements);
-    }
-
     render() {
       return (
         <section className="xml-editor">
@@ -55,7 +54,7 @@ export default class XMLEditor extends Component {
                 mode="xml" 
                 theme="monokai" 
                 onChange={this.handleChange} 
-                value={this.props.xml} 
+                value={this.state.xml} 
                 name="1" 
                 onSelectionChange={this.handleSelection} 
                 onFocus={this.handleFocus}
