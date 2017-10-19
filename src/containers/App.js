@@ -4,8 +4,9 @@ import XMLEditor from './XMLEditor.js';
 import GUIEditor from './GUIEditor.js';
 import Store from '../utils/Store.js';
 
-//import logo from '../images/logo.svg';
 import '../containers/App.css';
+
+const Menu = window.require('electron').remote.Menu;
 
 
 class App extends Component {
@@ -14,29 +15,19 @@ class App extends Component {
     super(props);
     this.state = {
       project: {
-        name: ""
+        name: "project_3"
       },
       GUIEditor: {
         status: "enabled"
       },
-      elements: [{
-        id: 0,
-        qtype: "",
-        qlabel: "",
-        qcond: "",
-        qtitle: "",
-        qinstruction: "",
-        shuffle: {
-          rows: false,
-          cols: false
-        },
-        rows: [],
-        cols: []
-      }]
+      elements: []
     };
     this.store = new Store();
     this.list = this.store.list();
-    console.log(this.list);
+    
+    this.loadStateFromFile = this.loadStateFromFile.bind(this);
+
+    this.setMenu();
   }
 
   updateElements(elements) {
@@ -102,6 +93,92 @@ class App extends Component {
       </div>
     );
   }
+
+  setMenu() {
+    let load_submenu = [];
+    const projects = this.store.list();
+    load_submenu = projects.map((project) => {
+      return {
+        label: project,
+        click() {
+          this.loadStateFromFile(project);
+        }
+      }
+    }, this);
+    console.log(load_submenu);
+    let template = [
+      {
+        label: "File",
+        submenu: [
+          {
+            label: "New Project",
+            accelerator: "Ctrl+N",
+            click() {
+              alert("New Project");
+            }
+          },
+          {
+            label: "Load",
+            submenu: load_submenu
+          },
+          {
+            label: "Save",
+            accelerator: "Ctrl+S",
+            click() {
+              this.saveStateToFile();
+            }
+          }
+        ]
+      },
+      {
+        label: "Edit",
+        submenu: [
+          {
+            label: "Cut",
+            role: ""
+          },
+          {
+            label: "Copy",
+            role: ""
+          },
+          {
+            label: "Paste",
+            role: ""
+          },
+          {
+            label: "Preferences",
+            role: ""
+          }
+        ]
+      },
+      {
+        label: "Help",
+        submenu: [
+          {
+            label: "About",
+            click() {
+              alert("About");
+            }
+          },
+          {
+            label: "Contribute",
+            click() {
+              alert("Contribute");
+            }
+          },
+          {
+            label: "Check for Update",
+            click() {
+              alert("Check for Update");
+            }
+          }
+        ]
+      }
+    ];
+
+    Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+  }
+
 }
 
 export default App;

@@ -28,10 +28,10 @@ export default class GUIEditor extends Component {
       }
       let element = {
           id: id,
-          qtype: 'radio',
+          qtype: "radio",
           qlabel: qlabel,
           qcond: "",
-          qtitle: 'Question Title',
+          qtitle: "",
           qinstruction: "",
           shuffle: {
             rows: false,
@@ -39,12 +39,15 @@ export default class GUIEditor extends Component {
           },
           rows: [{
             label: "r1",
+            value: "",
             text: "Example 1"
           },{
             label: "r2",
+            value: "",
             text: "Example 2"
           },{
             label: "r3",
+            value: "",
             text: "Example 3"
           }],
           cols: []

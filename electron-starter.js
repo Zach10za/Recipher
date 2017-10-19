@@ -37,7 +37,7 @@ function createWindow () {
     mainWindow = null
   })
 
-  setMainMenu()
+  // setMainMenu()
 }
 
 // This method will be called when Electron has finished
@@ -62,35 +62,35 @@ app.on('activate', function () {
   }
 })
 
-function setMainMenu() {
-  const template = [
-    {
-    label: 'File',
-    submenu: [{
-        label: 'New Project',
-        click() {
-          console.log('new project')
-        }
-      },{
-        label: 'Recent',
-        submenu: [{
-            label: 'project_1',
-            click() {
-              console.log('load project_!')
-            }
-          }]
-      },{
-        label: 'Open',
-        click() {
-          console.log('open')
-        }
-      },{
-        label: 'Save',
-        accelerator: 'Ctrl+S',
-        click() {
-          console.log('Saved!')
-        }
-      }]
-    }]
-  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
-}
+// function setMainMenu() {
+//   const template = [
+//     {
+//     label: 'File',
+//     submenu: [{
+//         label: 'New Project',
+//         click() {
+//           console.log('new project')
+//         }
+//       },{
+//         label: 'Recent',
+//         submenu: [{
+//             label: 'project_1',
+//             click() {
+//               console.log('load project_!')
+//             }
+//           }]
+//       },{
+//         label: 'Open',
+//         click() {
+//           console.log('open')
+//         }
+//       },{
+//         label: 'Save',
+//         accelerator: 'Ctrl+S',
+//         click() {
+//           console.log('Saved!')
+//         }
+//       }]
+//     }]
+//   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+// }
