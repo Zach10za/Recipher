@@ -2,11 +2,16 @@ import React, { Component } from 'react';
 
 import XMLEditor from './XMLEditor.js';
 import GUIEditor from './GUIEditor.js';
+import Modal from '../components/Modal.js';
 import Store from '../utils/Store.js';
+
+import '../utils/MenuHandler.js';
 
 import '../containers/App.css';
 
 const Menu = window.require('electron').remote.Menu;
+const ipcRenderer = window.require('electron').ipcRenderer;
+
 
 
 class App extends Component {
@@ -15,17 +20,23 @@ class App extends Component {
     super(props);
     this.state = {
       project: {
-        name: "project_3"
+        name: ""
       },
       GUIEditor: {
         status: "enabled"
       },
-      elements: []
+      elements: [],
+      modal: {
+        open: false
+      }
     };
     this.store = new Store();
     this.list = this.store.list();
     
     this.loadStateFromFile = this.loadStateFromFile.bind(this);
+    this.saveStateToFile = this.saveStateToFile.bind(this);
+    this.setMenu = this.setMenu.bind(this);
+    this.saveAs = this.saveAs.bind(this);
 
     this.setMenu();
   }
@@ -35,6 +46,7 @@ class App extends Component {
       this.refs.XML.compileXML();
     }, this);
   }
+
 
   updateElement(element) {
     let elements = this.state.elements;
@@ -62,7 +74,12 @@ class App extends Component {
   }
 
   saveStateToFile() {
-    this.store.set(this.state.project.name, this.state);
+    if (!this.state.project.name) {
+      this.setState({modal: {open: true}});
+    } else {
+      this.store.set(this.state.project.name, this.state);
+      alert(this.state.project.name + " has been saved!");
+    }
   }
 
   loadStateFromFile(project_name) {
@@ -73,9 +90,22 @@ class App extends Component {
     console.log('Loaded '+ project_name, this.state);
   }
 
+  saveAs(name) {
+    let state = this.state;
+    state.project.name = name;
+    state.modal.open = false;
+    this.setState({state});
+    this.saveStateToFile();
+  }
+
   render() {
     return (
       <div className="App">
+        <Modal
+          ref="saveAs"
+          open={this.state.modal.open}
+          project_name={this.state.project.name}
+          save={this.saveAs} />
         <XMLEditor 
           ref='XML' 
           elements={this.state.elements}
@@ -94,18 +124,30 @@ class App extends Component {
     );
   }
 
+  
+
+
   setMenu() {
+    
+    ipcRenderer.on("load-project", function(e, project) {
+      this.loadStateFromFile(project);
+    }.bind(this));
+    
+    ipcRenderer.on("save-project", function(e, project) {
+      this.saveStateToFile();
+    }.bind(this));
+
+
     let load_submenu = [];
     const projects = this.store.list();
     load_submenu = projects.map((project) => {
       return {
         label: project,
-        click() {
-          this.loadStateFromFile(project);
+        click(m,b,e) {
+          b.webContents.send("load-project", project);
         }
       }
     }, this);
-    console.log(load_submenu);
     let template = [
       {
         label: "File",
@@ -124,9 +166,13 @@ class App extends Component {
           {
             label: "Save",
             accelerator: "Ctrl+S",
-            click() {
-              this.saveStateToFile();
+            click(m,b,e) {
+              b.webContents.send("save-project");
             }
+          }, 
+          {
+            label: "Force Reload",
+            role: "forcereload"
           }
         ]
       },
@@ -168,8 +214,8 @@ class App extends Component {
           },
           {
             label: "Check for Update",
-            click() {
-              alert("Check for Update");
+            click(m,b,e) {
+              b.webContents.send("load-project");
             }
           }
         ]
@@ -179,6 +225,10 @@ class App extends Component {
     Menu.setApplicationMenu(Menu.buildFromTemplate(template));
   }
 
+  
+
+
 }
+
 
 export default App;

@@ -302,3 +302,50 @@
   text-decoration: none;
   font-weight: 400;
 }
+.save-modal {
+  position: fixed;
+  top: 40vh;
+  width: 350px;
+  background: #FFF;
+  z-index: 9;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.5) 0px 5px 15px 0px;
+  /* display: none; */
+}
+
+.save-modal h4 {
+  padding: 10px 15px;
+  display: block;
+  border-bottom: 1px solid rgba(229,229,229,1);
+  font-weight: 600;
+  text-align: left;
+}
+
+.save-modal label, .save-modal .save-as {
+  margin: 20px 0;
+}
+
+.save-modal label {
+  padding: 0 10px;
+}
+.save-modal input[type="submit"] {
+  display: block;
+  margin: 0 20px 20px;
+  float: right;
+  background: rgb(0, 134, 171);
+  border: none;
+  color: #FFF;
+  border-radius: 3px;
+  padding: 8px 13px;
+}
+
+.save-modal input[type="submit"]:hover {
+  background: #009bc4;
+  cursor: pointer;
+}
+
+

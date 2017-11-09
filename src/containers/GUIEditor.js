@@ -78,13 +78,6 @@ export default class GUIEditor extends Component {
       return (
         <section className={`gui-editor gui-${this.props.status}`}>
             <div className="disabled-overlay"></div>
-            <select className="main-btns load-project" onChange={this.loadProject.bind(this)}>
-              { this.props.projects.map((project, index) => {
-                  return <option key={index} value={project}>{project}</option>
-              })}
-            </select>
-            
-            <a className="main-btns save-project" onClick={this.saveProject.bind(this)}>Save Project</a>
             { this.props.elements.map((element, index) => {
                 return <ElementForm 
                         element={element} 
