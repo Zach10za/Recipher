@@ -33,8 +33,10 @@ export default class ElementRows extends Component {
             label: label,
             value: last_value + 1,
             text: "",
+            cond:"",
             anchor: false,
-            exclusive: false
+            exclusive: false,
+            open: false
           });
         this.props.updateRows(rows);
     }

@@ -40,15 +40,27 @@ export default class GUIEditor extends Component {
           rows: [{
             label: "r1",
             value: "",
-            text: "Example 1"
+            text: "Example 1",
+            cond: "",
+            anchor: false,
+            exclusive: false,
+            open: false
           },{
             label: "r2",
             value: "",
-            text: "Example 2"
+            text: "Example 2",
+            cond: "",
+            anchor: false,
+            exclusive: false,
+            open: false
           },{
             label: "r3",
             value: "",
-            text: "Example 3"
+            text: "Example 3",
+            cond: "",
+            anchor: false,
+            exclusive: false,
+            open: false
           }],
           cols: []
       }
@@ -77,6 +89,7 @@ export default class GUIEditor extends Component {
     render() {
       return (
         <section className={`gui-editor gui-${this.props.status}`}>
+            <div className="handle"></div>
             <div className="disabled-overlay"></div>
             { this.props.elements.map((element, index) => {
                 return <ElementForm 

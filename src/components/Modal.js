@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 
-export default class ElementCol extends Component {
+export default class Modal extends Component {
 
     constructor(props) {
         super(props);
@@ -21,11 +21,9 @@ export default class ElementCol extends Component {
     }
 
     render() {
-        console.log(this.props.open);
         return this.props.open ? (
             <form ref="saveModal" open={false} className="save-modal" onSubmit={this.saveAs.bind(this)}>
-                <h4>Save As</h4>
-                <label name="save-as" >Project Name</label>
+                <label name="save-as" >Element</label>
                 <input className="save-as" value={this.state.project_name} onChange={this.handleChange.bind(this)} type="text" name="save-as" />
                 <input type="submit" value="Save" />
             </form>

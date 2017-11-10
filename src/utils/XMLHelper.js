@@ -14,6 +14,7 @@ class XMLHelper {
             (element.shuffle.rows && element.shuffle.cols ? "\n shuffle=\"rows,cols\"" : "") +
             (element.shuffle.rows && !element.shuffle.cols ? "\n shuffle=\"rows\"" : "") +
             (element.shuffle.cols && !element.shuffle.rows ? "\n shuffle=\"cols\"" : "") +
+            (element.colLegendRows ? "\n colLegendRows=\"" + element.colLegendRows + "\"" : "") +
             ">\n\t<title>" +
             element.qtitle +
             "</title>\n"+
@@ -25,6 +26,7 @@ class XMLHelper {
                         (element.cols[i].value ? " value=\""+ element.cols[i].value + "\"" : "") +
                         (element.cols[i].anchor ? " randomize=\"0\"" : "") +
                         (element.cols[i].exclusive ? " exclusive=\"1\"" : "") +
+                        (element.cols[i].cond ? " cond=\""+ element.cols[i].cond + "\"" : "") +
                         ">" + 
                         element.cols[i].text + 
                         "</col>\n";
@@ -36,6 +38,8 @@ class XMLHelper {
                         (element.rows[i].value ? " value=\""+ element.rows[i].value + "\"" : "") +
                         (element.rows[i].anchor ? " randomize=\"0\"" : "") +
                         (element.rows[i].exclusive ? " exclusive=\"1\"" : "") +
+                        (element.rows[i].open ? " open=\"1\" openSize=\"25\"" : "") +
+                        (element.rows[i].cond ? " cond=\""+ element.rows[i].cond + "\"" : "") +
                         ">" + 
                         element.rows[i].text + 
                         "</row>\n";
@@ -59,6 +63,7 @@ class XMLHelper {
                 rows: false,
                 cols: false
             },
+            colLegendRows: "",
             rows: [],
             cols: []
         };
@@ -81,6 +86,7 @@ class XMLHelper {
                                 rows: false,
                                 cols: false
                             },
+                            colLegendRows: "",
                             rows: [],
                             cols: []
                         };
@@ -102,8 +108,10 @@ class XMLHelper {
                             label: line.split("\"")[1],
                             value: "",
                             text: line.split(">")[1].split("<")[0],
+                            cond: "",
                             anchor: false,
-                            exclusive: false
+                            exclusive: false,
+                            open: false
                         }
                         if (line.includes("value=")) {
                             row.value = line.split("value=\"")[1].split("\"")[0];
@@ -114,12 +122,19 @@ class XMLHelper {
                         if (line.includes("exclusive=")) {
                             row.exclusive = line.split("exclusive=\"")[1].split("\"")[0] ===  "1";
                         } 
+                        if (line.includes("open=")) {
+                            row.open = line.split("open=\"")[1].split("\"")[0] ===  "1";
+                        } 
+                        if (line.includes("cond=")) {
+                            row.cond = line.split("cond=\"")[1].split("\"")[0];
+                        } 
                         elem.rows.push(row);
                     } else if (line.includes("<col ")) {
                         let col = {
                             label: line.split("\"")[1],
                             value: "",
                             text: line.split(">")[1].split("<")[0],
+                            cond: "",
                             anchor: false,
                             exclusive: false
                         }
@@ -132,21 +147,28 @@ class XMLHelper {
                         if (line.includes("exclusive=")) {
                             col.exclusive = line.split("exclusive=\"")[1].split("\"")[0] ===  "1";
                         } 
+                        if (line.includes("cond=")) {
+                            col.cond = line.split("cond=\"")[1].split("\"")[0];
+                        } 
                         elem.cols.push(col);
                     } else {
                         elem.qlabel = line.split("\"")[1];
                     }
-                }
-                if (line.includes("shuffle=")) {
-                    if (line.includes("rows")) {
-                        elem.shuffle.rows = true;
+                } else {
+                    if (line.includes("shuffle=")) {
+                        if (line.includes("rows")) {
+                            elem.shuffle.rows = true;
+                        }
+                        if (line.includes("cols")) {
+                            elem.shuffle.cols = true;
+                        }
                     }
-                    if (line.includes("cols")) {
-                        elem.shuffle.cols = true;
+                    if (line.includes("cond=")) {
+                        elem.qcond = line.split("\"")[1];
                     }
-                }
-                if (line.includes("cond=")) {
-                    elem.qcond = line.split("\"")[1];
+                    if (line.includes("colLegendRows=")) {
+                        elem.colLegendRows = line.split("\"")[1];
+                    }
                 }
             }
         }

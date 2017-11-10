@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 import XMLEditor from './XMLEditor.js';
 import GUIEditor from './GUIEditor.js';
 import Modal from '../components/Modal.js';
+import NewElementModal from '../components/NewElementModal.js';
 import Store from '../utils/Store.js';
-
-import '../utils/MenuHandler.js';
+import '../utils/GUIHelper.js';
 
 import '../containers/App.css';
 
@@ -27,6 +27,9 @@ class App extends Component {
       },
       elements: [],
       modal: {
+        open: false
+      },
+      newElementModal: {
         open: false
       }
     };
@@ -57,10 +60,20 @@ class App extends Component {
     elem.qtitle = element.qtitle;
     elem.qinstruction = element.qinstruction;
     elem.shuffle = element.shuffle;
+    elem.colLegendRows = element.colLegendRows;
     elem.rows = element.rows;
     elem.cols = element.cols;
     elements[element.id] = elem;
     this.updateElements(elements);
+  }
+
+  addElement(element) {
+    let elements = this.state.elements;
+    const id = (elements.length > 0 ? elements[elements.length-1].id + 1 : 0);
+    element.id = id;
+    elements.push(element);
+    this.updateElements(elements);
+    this.setState({newElementModal: {open: false}});
   }
 
   handleXMLFocus(focus) {
@@ -106,6 +119,12 @@ class App extends Component {
           open={this.state.modal.open}
           project_name={this.state.project.name}
           save={this.saveAs} />
+          
+        <NewElementModal
+          ref="newElementModal"
+          addElement={this.addElement.bind(this)}
+          open={this.state.newElementModal.open} />
+
         <XMLEditor 
           ref='XML' 
           elements={this.state.elements}
@@ -137,6 +156,9 @@ class App extends Component {
       this.saveStateToFile();
     }.bind(this));
 
+    ipcRenderer.on("new-element", function(e, project) {
+      this.setState({newElementModal: {open: true}});
+    }.bind(this));
 
     let load_submenu = [];
     const projects = this.store.list();
@@ -194,6 +216,18 @@ class App extends Component {
           {
             label: "Preferences",
             role: ""
+          }
+        ]
+      },
+      {
+        label: "Elements",
+        submenu: [
+          {
+            label: "New Element",
+            accelerator: "Ctrl+N",
+            click(m,b,e) {
+              b.webContents.send("new-element");
+            }
           }
         ]
       },
