@@ -135,7 +135,7 @@ export default class NewElementModal extends Component {
 
     calculateRowLegends(num_rows) {
         const divisor = Math.round(num_rows / 10 - 0.2);
-        if (divisor == 1) {
+        if (divisor === 1) {
             return "";
         }
         let arr = [Math.ceil(num_rows / divisor) + 1];

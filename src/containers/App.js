@@ -42,6 +42,22 @@ class App extends Component {
     this.saveAs = this.saveAs.bind(this);
 
     this.setMenu();
+
+    this.handler = (ev) => {
+      if (ev.type === 'beforeunload') {
+        if (!this.state.project.name) {
+          ev.returnValue = 'false';
+          this.saveStateToFile();
+        } else {
+          let file = this.store.get(this.state.project.name);
+          let current = this.state;
+          let similar = JSON.stringify(file) === JSON.stringify(current);
+          if (!similar) {
+            this.saveStateToFile();
+          }
+        }
+      }
+    }
   }
 
   updateElements(elements) {
@@ -50,6 +66,16 @@ class App extends Component {
     }, this);
   }
 
+  componentDidMount() {
+    window.addEventListener("beforeunload", this.handler)
+    if (localStorage.getItem('project_name')) {
+      this.loadStateFromFile(localStorage.getItem('project_name'));
+    }
+  }
+
+  componentWillUnmount() {
+     window.removeEventListener("beforeunload", this.handler)
+  }
 
   updateElement(element) {
     let elements = this.state.elements;
@@ -91,16 +117,15 @@ class App extends Component {
       this.setState({modal: {open: true}});
     } else {
       this.store.set(this.state.project.name, this.state);
-      alert(this.state.project.name + " has been saved!");
     }
   }
 
   loadStateFromFile(project_name) {
     let state = this.store.get(project_name);
+    localStorage.setItem('project_name', project_name);
     this.setState(state, () => {
       this.updateElements(this.state.elements);
     }, this);
-    console.log('Loaded '+ project_name, this.state);
   }
 
   saveAs(name) {
@@ -142,8 +167,6 @@ class App extends Component {
       </div>
     );
   }
-
-  
 
 
   setMenu() {
