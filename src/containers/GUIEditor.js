@@ -62,7 +62,8 @@ export default class GUIEditor extends Component {
             exclusive: false,
             open: false
           }],
-          cols: []
+          cols: [],
+          atLeast: null
       }
       
       let elements = this.props.elements;

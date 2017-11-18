@@ -5,7 +5,8 @@ let isResizing = false;
 $(function () {
     const container = $('.App');
     let gui = $('.gui-editor');
-    const handle = $('.handle');
+    let gui_cover = $('.gui-editor .disabled-overlay');
+    let handle = $('.handle');
 
     handle.on('mousedown', function (e) {
         isResizing = true;
@@ -23,6 +24,8 @@ $(function () {
             width = container_width * 0.35;
         }
         gui.css('width', width);
+        gui_cover.css('width', width - 10);
+        handle.css('left', container_width - width);
     }).on('mouseup', function (e) {
         // stop resizing
         isResizing = false;

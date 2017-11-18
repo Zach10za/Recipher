@@ -53,6 +53,7 @@ export default class XMLEditor extends Component {
             <AceEditor 
                 mode="xml" 
                 theme="monokai" 
+                showPrintMargin={false}
                 onChange={this.handleChange} 
                 value={this.state.xml} 
                 name="1" 

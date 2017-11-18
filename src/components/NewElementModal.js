@@ -129,6 +129,7 @@ export default class NewElementModal extends Component {
             element.shuffle.rows = tmp_rows_shuffle;
             element.rows = tmp_rows;
         }
+        element.atLeast = (element.type === 'checkbox' ? 1 : null);
         this.props.addElement(element);
         this.setState({text: ""});
     }

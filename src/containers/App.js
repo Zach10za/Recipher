@@ -87,6 +87,7 @@ class App extends Component {
     elem.qinstruction = element.qinstruction;
     elem.shuffle = element.shuffle;
     elem.colLegendRows = element.colLegendRows;
+    elem.atLeast = element.atLeast;
     elem.rows = element.rows;
     elem.cols = element.cols;
     elements[element.id] = elem;

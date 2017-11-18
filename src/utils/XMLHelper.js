@@ -15,6 +15,7 @@ class XMLHelper {
             (element.shuffle.rows && !element.shuffle.cols ? "\n shuffle=\"rows\"" : "") +
             (element.shuffle.cols && !element.shuffle.rows ? "\n shuffle=\"cols\"" : "") +
             (element.colLegendRows ? "\n colLegendRows=\"" + element.colLegendRows + "\"" : "") +
+            (element.atLeast ? "\n atleast=\"" + element.atLeast + "\"" : "") +
             ">\n\t<title>" +
             element.qtitle +
             "</title>\n"+
@@ -65,7 +66,8 @@ class XMLHelper {
             },
             colLegendRows: "",
             rows: [],
-            cols: []
+            cols: [],
+            atLeast: null
         };
         for (let i=0; i<split.length; i++) {
             const line = split[i];
@@ -88,7 +90,8 @@ class XMLHelper {
                             },
                             colLegendRows: "",
                             rows: [],
-                            cols: []
+                            cols: [],
+                            atLeast: null
                         };
                     } else {
                         elem.qtype = line.split("<")[1];
@@ -168,6 +171,9 @@ class XMLHelper {
                     }
                     if (line.includes("colLegendRows=")) {
                         elem.colLegendRows = line.split("\"")[1];
+                    }
+                    if (line.includes("atleast=")) {
+                        elem.atLeast = line.split("\"")[1];
                     }
                 }
             }
