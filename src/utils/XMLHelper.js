@@ -45,7 +45,7 @@ class XMLHelper {
                         element.rows[i].text + 
                         "</row>\n";
             }
-            xml += "</" + element.qtype + ">\n";
+            xml += "</" + element.qtype + ">\n\n</suspend>\n";
         }
         return xml;
     }

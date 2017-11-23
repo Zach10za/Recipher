@@ -31,7 +31,7 @@ export default class ElementRows extends Component {
         }
         rows.push({
             label: label,
-            value: last_value + 1,
+            value: (last_row.value ? last_value + 1 : ""),
             text: "",
             cond:"",
             anchor: false,
